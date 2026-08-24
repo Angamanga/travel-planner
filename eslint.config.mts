@@ -4,28 +4,42 @@ import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 
+
 export default defineConfig([
-  {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-    plugins: { js },
-    extends: ["js/recommended"],
-    languageOptions: {
-      globals: { ...globals.browser, ...globals.node },
-    },
-  },
+  js.configs.recommended,
   tseslint.configs.recommended,
   eslintConfigPrettier,
   {
+    files: ["**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+    },
     rules: {
-      "@typescript-eslint/no-implicit-any": "error",
       "prefer-arrow-callback": "error",
       "func-style": ["error", "expression"],
-      "@typescript-eslint/no-unused-vars": "error",
       eqeqeq: ["error", "always"],
       "require-await": "error",
       "no-promise-executor-return": "error",
-      "@typescript-eslint/promise-function-async": "error",
       camelcase: ["error", { allow: ["^_"] }],
+    },
+  },
+  {
+    files: ["**/*.{ts,mts,cts}"],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node },
+      parser: tseslint.parser,
+      parserOptions: {
+        project: true,  // ✅ Enables type checking
+        tsconfigRootDir: "/",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+    },
+    rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/promise-function-async": "error",
       "@typescript-eslint/naming-convention": [
         "error",
         {
