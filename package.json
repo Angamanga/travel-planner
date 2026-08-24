@@ -19,7 +19,8 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier . --write .",
     "prettier:check": "prettier . --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --exec ts-node src/cli.ts)"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -27,6 +28,7 @@
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.11.0",
     "jiti": "^2.7.0",
+    "nodemon": "^3.1.14",
     "prettier": "^3.9.6",
     "ts-node": "^10.9.2",
     "typescript": "6.0.3",
