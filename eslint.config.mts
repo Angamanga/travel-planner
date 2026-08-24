@@ -29,8 +29,7 @@ export default defineConfig([
       globals: { ...globals.browser, ...globals.node },
       parser: tseslint.parser,
       parserOptions: {
-        project: true,  // ✅ Enables type checking
-        tsconfigRootDir: "/",
+        project: ['./tsconfig.json'],
       },
     },
     plugins: {
