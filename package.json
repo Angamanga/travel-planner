@@ -15,14 +15,19 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "eslint": "^10.9.0",
+    "globals": "^17.11.0",
     "jiti": "^2.7.0",
     "ts-node": "^10.9.2",
-    "typescript": "^7.0.2",
-    "prettier": "^3.9.6"
+    "prettier": "^3.9.6",
+    "typescript": "6.0.3",
+    "typescript-eslint": "^8.67.0"
   },
   "dependencies": {
     "@types/node": "^26.2.0",
