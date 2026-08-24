@@ -1,0 +1,32 @@
+{
+  "name": "travel-planner",
+  "version": "1.0.0",
+  "description": "User Stories",
+  "homepage": "https://github.com/Angamanga/travel-planner#readme",
+  "bugs": {
+    "url": "https://github.com/Angamanga/travel-planner/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Angamanga/travel-planner.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "eslint": "^10.9.0",
+    "jiti": "^2.7.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2",
+    "prettier": "^3.9.6"
+  },
+  "dependencies": {
+    "@types/node": "^26.2.0",
+    "inquirer": "^14.1.0",
+    "node-fetch": "^3.3.2"
+  }
+}
