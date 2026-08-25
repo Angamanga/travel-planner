@@ -12,7 +12,7 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "lint": "eslint",
@@ -20,7 +20,7 @@
     "prettier": "prettier . --write .",
     "prettier:check": "prettier . --check .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec ts-node src/cli.ts)"
+    "dev": "nodemon --watch src --ext ts,json --exec \"node --env-file=.env --loader ts-node/esm\" src/cli.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
