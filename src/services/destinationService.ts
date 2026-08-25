@@ -10,9 +10,13 @@ export const getDestinationInfo = async (countryName: string) => {
         }
 
         const response = await fetch(
-            `https://api.restcountries.com/countries/v5?q=${countryName}`,
+            `https://api.restcountries.com/countries/v5?q=${encodeURIComponent(countryName)}`,
             { headers: { Authorization: `Bearer ${bearerToken}` } }
         );
+
+        if (!response.ok) {
+            throw new Error(`REST Countries request failed: ${response.status} ${response.statusText}`);
+        }
 
         const data = await response.json();
         const country = data?.data?.objects?.[0];
