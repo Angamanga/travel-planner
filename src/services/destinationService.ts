@@ -1,7 +1,8 @@
 import fetch from 'node-fetch';
+import type { CountryInfo } from '../models.js';
 
 // Service to get the country-information from the REST Countries API
-export const getDestinationInfo = async (countryName: string) => {
+export const getDestinationInfo = async (countryName: string): Promise<CountryInfo> => {
     try {
         const bearerToken = process.env.RESTCOUNTRIES_BEARER;
 
