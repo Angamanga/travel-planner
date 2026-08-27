@@ -2,6 +2,7 @@ import { getDestinationInfo } from "./services/destinationService.ts";
 import {
   addActivityToTrip,
   createTrip,
+  getActivitiesByCategory,
   getActivitiesByDate,
   getTrips,
 } from "./services/itineraryService.ts";
@@ -50,6 +51,17 @@ const main = async () => {
   );
   console.log("Activities found!");
   console.log(activitiesOnDay);
+
+  const sightseeingActivities = await getActivitiesByCategory(
+    tripId,
+    "sightseeing",
+  );
+  console.log("Activities found!");
+  console.log(sightseeingActivities);
+
+  const foodActivities = await getActivitiesByCategory(tripId, "food");
+  console.log("Activities found!");
+  console.log(foodActivities);
 };
 
 main();

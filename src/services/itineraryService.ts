@@ -95,3 +95,25 @@ export const getActivitiesByDate = async (
     });
   }
 };
+
+export const getActivitiesByCategory = async (
+  tripId: string,
+  category: ActivityCategory,
+): Promise<Activity[]> => {
+  try {
+    const trip = await getTripFromDatabase(tripId);
+    if (!trip) {
+      throw new Error("Could not find a trip with that id");
+    }
+
+    const activities = trip.activities.filter((activity) => {
+      return activity.category === category;
+    });
+
+    return activities;
+  } catch (error: unknown) {
+    throw new Error("Could find activities for the specific category", {
+      cause: error,
+    });
+  }
+};
