@@ -1,5 +1,6 @@
+import 'dotenv/config';
 import fetch from 'node-fetch';
-import type { CountryInfo } from '../models.js';
+import type { CountryInfo } from '../models.ts';
 
 // Service to get the country-information from the REST Countries API
 export const getDestinationInfo = async (countryName: string): Promise<CountryInfo> => {
