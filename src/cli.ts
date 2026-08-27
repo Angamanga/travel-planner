@@ -6,6 +6,10 @@ import {
   getActivitiesByDate,
   getTrips,
 } from "./services/itineraryService.ts";
+import {
+  getHighCostActivities,
+  getTotalCostForTrip,
+} from "./services/budgetService.ts";
 
 const main = async () => {
   const destinationInfo = await getDestinationInfo("Norway");
@@ -62,6 +66,15 @@ const main = async () => {
   const foodActivities = await getActivitiesByCategory(tripId, "food");
   console.log("Activities found!");
   console.log(foodActivities);
+
+  const totalCost = await getTotalCostForTrip(tripId);
+  console.log(
+    `The total cost for this trip is ${totalCost} ${updatedTrip.destination.currency}`,
+  );
+
+  const highCostActivities = await getHighCostActivities(tripId, 90);
+  console.log("I found the following high-cost activities:");
+  console.log(highCostActivities);
 };
 
 main();
