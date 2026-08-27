@@ -1,5 +1,5 @@
 import { readFile, writeFile } from 'fs/promises';
-import type { Activity, CountryInfo, Trip } from "../models.ts";
+import type {  CountryInfo, Trip } from "../models.ts";
 
 const dbFileUrl = new URL('../db.json', import.meta.url);
 
@@ -46,31 +46,7 @@ export const getTripFromDatabase = async (tripId: string): Promise<Trip | undefi
     }
 }
 
-export const getActivitiesFromDatabase = async (): Promise<Activity[]> => {
-    try {
-        const raw = await readFile(dbFileUrl, 'utf8');
-        const data = JSON.parse(raw);
-        const activities: Activity[] = data.activities;
-        return activities;
-    } catch (error: unknown) {
-        throw new Error('Could not retrieve activities from database', { cause: error });
-    }
-}
 
-export const saveActivityToDatabase = async (activity: Activity): Promise<void> => {
-    try {
-        const raw = await readFile(dbFileUrl, 'utf8');
-        const data = JSON.parse(raw);
-        const activities: Activity[] = data.activities;
-
-        activities.push(activity);
-        data.activities = activities;
-
-        await writeFile(dbFileUrl, JSON.stringify(data, null, 2), 'utf8');
-    } catch (error: unknown) {
-        throw new Error('Could not save activity to database', { cause: error });
-    }
-}
 
 export const updateTripInDatabase = async (updatedTrip: Trip): Promise<void> => {
     try {

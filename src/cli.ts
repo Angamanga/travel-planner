@@ -1,5 +1,5 @@
 import { getDestinationInfo } from './services/destinationService.ts';
-import { addActivityToTrip, createTrip, getTrips } from './services/itineraryService.ts';
+import { addActivityToTrip, createTrip, getActivitiesByDate, getTrips } from './services/itineraryService.ts';
 
 const main = async () => {
     const destinationInfo = await getDestinationInfo('Norway');
@@ -15,7 +15,7 @@ const main = async () => {
      console.log(allTrips);
 
      const tripId = newTrip.id;
-     const activity = {
+     const activity1 = {
          name: 'Visit the fjords',
          description: 'A very nice and scenic boat tour of the fjords',
          cost: 100,
@@ -23,9 +23,26 @@ const main = async () => {
          startTime: new Date('2026-10-02T10:00:00')
      };
 
-     const updatedTrip = await addActivityToTrip(tripId, activity);
+     let updatedTrip = await addActivityToTrip(tripId, activity1);
      console.log('Activity added to trip successfully');
      console.log(updatedTrip);
+
+     const activity2 = {
+        name: 'Walk in the mountains',
+        description: "A tough walk along the mountain",
+        cost: 50,
+        category: "sightseeing" as const,
+        startTime: new Date("2026-10-05T10:00:00")
+    }
+    
+    updatedTrip = await addActivityToTrip(tripId, activity2);
+    console.log('Activity added to trip successfully');
+    console.log(updatedTrip);
+
+    const activitiesOnDay = await getActivitiesByDate(tripId, new Date("2026-10-05T10:00:00"));
+    console.log('Activities found!');
+    console.log(activitiesOnDay);
+    
 }
 
 main();
