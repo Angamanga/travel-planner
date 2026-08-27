@@ -1,7 +1,7 @@
 import { getDestinationInfo } from './services/destinationService.ts';
 import { addActivityToTrip, createTrip, getTrips } from './services/itineraryService.ts';
 
-export async function main() {
+const main = async () => {
     const destinationInfo = await getDestinationInfo('Norway');
     console.log('Destination info about Norway fetched successfully');
     console.log(destinationInfo);

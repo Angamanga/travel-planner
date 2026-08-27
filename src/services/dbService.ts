@@ -3,7 +3,7 @@ import type { Activity, CountryInfo, Trip } from "../models.ts";
 
 const dbFileUrl = new URL('../db.json', import.meta.url);
 
-export async function saveTripToDatabase(destination: CountryInfo, startDate: Date): Promise<Trip> {
+export const saveTripToDatabase = async (destination: CountryInfo, startDate: Date): Promise<Trip> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
@@ -25,7 +25,7 @@ export async function saveTripToDatabase(destination: CountryInfo, startDate: Da
     }
 }
 
-export async function getTripsFromDatabase(): Promise<Trip[]> {
+export const getTripsFromDatabase = async (): Promise<Trip[]> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
@@ -35,7 +35,7 @@ export async function getTripsFromDatabase(): Promise<Trip[]> {
     }
 }
 
-export async function getTripFromDatabase(tripId: string): Promise<Trip | undefined> {
+export const getTripFromDatabase = async (tripId: string): Promise<Trip | undefined> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
@@ -46,7 +46,7 @@ export async function getTripFromDatabase(tripId: string): Promise<Trip | undefi
     }
 }
 
-export async function getActivitiesFromDatabase(): Promise<Activity[]> {
+export const getActivitiesFromDatabase = async (): Promise<Activity[]> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
@@ -57,7 +57,7 @@ export async function getActivitiesFromDatabase(): Promise<Activity[]> {
     }
 }
 
-export async function saveActivityToDatabase(activity: Activity): Promise<void> {
+export const saveActivityToDatabase = async (activity: Activity): Promise<void> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
@@ -72,7 +72,7 @@ export async function saveActivityToDatabase(activity: Activity): Promise<void> 
     }
 }
 
-export async function updateTripInDatabase(updatedTrip: Trip): Promise<void> {
+export const updateTripInDatabase = async (updatedTrip: Trip): Promise<void> => {
     try {
         const raw = await readFile(dbFileUrl, 'utf8');
         const data = JSON.parse(raw);
