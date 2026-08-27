@@ -4,7 +4,6 @@ import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 
-
 export default defineConfig([
   js.configs.recommended,
   tseslint.configs.recommended,
@@ -29,7 +28,7 @@ export default defineConfig([
       globals: { ...globals.browser, ...globals.node },
       parser: tseslint.parser,
       parserOptions: {
-        project: ['./tsconfig.json'],
+        project: ["./tsconfig.json"],
       },
     },
     plugins: {
