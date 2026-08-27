@@ -12,7 +12,7 @@ export interface Trip {
 	id: string;
 	destination: CountryInfo;
 	startDate: Date;
-	activities: Activity[];
+	activities: string[];
 }
 
 export interface CountryInfo {
