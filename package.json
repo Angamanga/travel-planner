@@ -20,7 +20,7 @@
     "prettier": "prettier . --write .",
     "prettier:check": "prettier . --check .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --watch src --ext ts,json --exec \"node --env-file=.env --loader ts-node/esm\" src/cli.ts"
+    "dev": "nodemon --watch src --exec ts-node src/cli.ts --ignore db.json"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -36,6 +36,7 @@
     "typescript-eslint": "^8.67.0"
   },
   "dependencies": {
+    "dotenv": "^16.6.1",
     "inquirer": "^14.1.0",
     "node-fetch": "^3.3.2"
   }
