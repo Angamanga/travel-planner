@@ -19,7 +19,7 @@ const mainMenu = async () => {
       type: 'rawlist',
       name: 'action',
       message: 'What would you like to do?',
-      choices: ['View Trips', 'Add Activity', 'View Budget', 'Exit']
+      choices: ['View Trips', 'Add Trip', 'Add Activity', 'View Budget', 'Exit']
     }]);
 
     switch(answer.action) {
@@ -52,7 +52,12 @@ const mainMenu = async () => {
           {
             type: 'input',
             name: 'startDate',
-            message: 'Enter the trip start date (YYYY-MM-DD):'
+            message: 'Enter the trip start date (YYYY-MM-DD):',
+            validate: (input) => {
+              const date = new Date(input);
+              console.log("Validating date input:", input, "Parsed date:", date);
+              return !isNaN(date.getTime()) || 'Please enter a valid date in YYYY-MM-DD format';
+            } 
           }
         ]);
         const destinationInfo = await getDestinationInfo(tripInfo.destination);
