@@ -1,80 +1,151 @@
+import inquirer from 'inquirer';
+
 import { getDestinationInfo } from "./services/destinationService.ts";
 import {
   addActivityToTrip,
   createTrip,
-  getActivitiesByCategory,
-  getActivitiesByDate,
-  getTrips,
+  getTrips
 } from "./services/itineraryService.ts";
 import {
   getHighCostActivities,
   getTotalCostForTrip,
 } from "./services/budgetService.ts";
 
-const main = async () => {
-  const destinationInfo = await getDestinationInfo("Norway");
-  console.log("Destination info about Norway fetched successfully");
-  console.log(destinationInfo);
 
-  const newTrip = await createTrip(destinationInfo, new Date("2026-10-01"));
-  console.log("New trip created successfully");
-  console.log(newTrip);
+const mainMenu = async () => {
+  let running = true;
+  while (running) {
+    const answer = await inquirer.prompt([{ 
+      type: 'rawlist',
+      name: 'action',
+      message: 'What would you like to do?',
+      choices: ['View Trips', 'Add Activity', 'View Budget', 'Exit']
+    }]);
 
-  const allTrips = await getTrips();
-  console.log("All trips retrieved successfully");
-  console.log(allTrips);
+    switch(answer.action) {
+      case 'View Trips': {
+        const trips = await getTrips();
+        console.log(trips);
+        if(trips.length === 0) {
+          console.log("No trips found.");
+          break;
+        }
+        console.log("***These are your upcoming trips:***");
+        trips.forEach((trip) => {
+          console.log(`Trip ID: ${trip.id}`);
+          console.log(`Destination: ${trip.destination.countryName}`);
+          console.log(`Flag: ${trip.destination.flag}`);
+          console.log(`Currency: ${trip.destination.currency}`);
+          console.log(`Start Date: ${new Date(trip.startDate).toLocaleDateString()}`);
+          console.log(`Activities: ${trip.activities.map((a) => a.name).join(", ")}`);
+          console.log('-----------------------------');          
+        });
+        break;
+      }
+      case 'Add Trip': {
+        const tripInfo = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'destination',
+            message: 'Enter the destination name:'
+          },
+          {
+            type: 'input',
+            name: 'startDate',
+            message: 'Enter the trip start date (YYYY-MM-DD):'
+          }
+        ]);
+        const destinationInfo = await getDestinationInfo(tripInfo.destination);
+        const newTrip = await createTrip(destinationInfo, new Date(tripInfo.startDate));
+        console.log('New trip created successfully');
+        console.log(newTrip);
+        break;
+      }
+      case 'Add Activity': {
+        const tripId = await inquirer.prompt([{
+          type: 'input',
+          name: 'tripId',
+          message: 'Enter the trip ID to add an activity to:'
+        }]);
+        const activityDetails = await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'name',
+            message: 'Enter the activity name:'
+          },
+          {
+            type: 'input',
+            name: 'description',
+            message: 'Enter the activity description:'
+          },
+          {
+            type: 'number',
+            name: 'cost',
+            message: 'Enter the activity cost:'
+          },
+          {
+            type: 'rawlist',
+            name: 'category', 
+            message: 'Select the activity category:',
+            choices: ['sightseeing', 'food', 'transport']
+          },
+          {
+            type: 'input',
+            name: 'startTime',
+            message: 'Enter the activity start time (YYYY-MM-DDTHH:mm:ss):'
+          }
+        ]);
+        const newActivity = {
+          name: activityDetails.name,
+          description: activityDetails.description,
+          cost: activityDetails.cost,
+          category: activityDetails.category,
+          startTime: new Date(activityDetails.startTime)
+        };
+        const updatedTrip = await addActivityToTrip(tripId.tripId, newActivity);
+        console.log("Activity added to trip successfully");
+        console.log(updatedTrip);
+        break;
+      }
+      case 'View Budget': {
+        const budgetTripId = await inquirer.prompt([{
+          type: 'input',
+          name: 'tripId',
+          message: 'Enter the trip ID to view the budget for:'
+        }]);
 
-  const tripId = newTrip.id;
-  const activity1 = {
-    name: "Visit the fjords",
-    description: "A very nice and scenic boat tour of the fjords",
-    cost: 100,
-    category: "sightseeing" as const,
-    startTime: new Date("2026-10-02T10:00:00"),
-  };
+        const budgetChoice = await inquirer.prompt([{
+          type: 'rawlist',
+          name: 'budgetAction',
+          message: 'What would you like to view?',
+          choices: ['Total cost', 'High-cost activities']
+        }]);
 
-  let updatedTrip = await addActivityToTrip(tripId, activity1);
-  console.log("Activity added to trip successfully");
-  console.log(updatedTrip);
-
-  const activity2 = {
-    name: "Walk in the mountains",
-    description: "A tough walk along the mountain",
-    cost: 50,
-    category: "sightseeing" as const,
-    startTime: new Date("2026-10-05T10:00:00"),
-  };
-
-  updatedTrip = await addActivityToTrip(tripId, activity2);
-  console.log("Activity added to trip successfully");
-  console.log(updatedTrip);
-
-  const activitiesOnDay = await getActivitiesByDate(
-    tripId,
-    new Date("2026-10-05T10:00:00"),
-  );
-  console.log("Activities found!");
-  console.log(activitiesOnDay);
-
-  const sightseeingActivities = await getActivitiesByCategory(
-    tripId,
-    "sightseeing",
-  );
-  console.log("Activities found!");
-  console.log(sightseeingActivities);
-
-  const foodActivities = await getActivitiesByCategory(tripId, "food");
-  console.log("Activities found!");
-  console.log(foodActivities);
-
-  const totalCost = await getTotalCostForTrip(tripId);
-  console.log(
-    `The total cost for this trip is ${totalCost} ${updatedTrip.destination.currency}`,
-  );
-
-  const highCostActivities = await getHighCostActivities(tripId, 90);
-  console.log("I found the following high-cost activities:");
-  console.log(highCostActivities);
+        if (budgetChoice.budgetAction === 'Total cost') {
+          const totalCost = await getTotalCostForTrip(budgetTripId.tripId);
+          console.log(`The total cost for this trip is ${totalCost}`);
+        } else {
+          const threshold = await inquirer.prompt([{
+            type: 'number',
+            name: 'threshold',
+            message: 'Enter the minimum cost to treat an activity as high-cost:'
+          }]);
+          const highCostActivities = await getHighCostActivities(budgetTripId.tripId, threshold.threshold);
+          console.log("High cost activities:");
+          console.log(highCostActivities);
+        }
+        break;
+      }
+      case 'Exit': {
+        console.log('Exiting...');
+        running = false;
+        break;
+      }
+      default: {
+        console.log('Invalid choice');
+      }
+    }
+  }
 };
 
-main();
+mainMenu();
