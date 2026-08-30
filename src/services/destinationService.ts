@@ -28,7 +28,6 @@ export const getDestinationInfo = async (
     const country = data?.data?.objects?.[0];
     const currency = country?.currencies?.[0]?.code;
     const flagPng = country?.flag?.url_png;
-
     if (!country || !currency || !flagPng) {
       throw new Error("Country data is missing");
     }
@@ -36,6 +35,7 @@ export const getDestinationInfo = async (
     return {
       currency,
       flag: flagPng,
+      countryName: country.names.common,
     };
   } catch (error: unknown) {
     throw new Error("Could not fetch country data", { cause: error });

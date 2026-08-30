@@ -16,6 +16,7 @@ export interface Trip {
 }
 
 export interface CountryInfo {
+  countryName: string;
   currency: string;
   flag: string;
 }
