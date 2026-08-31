@@ -1,6 +1,27 @@
 # travel-planner
 
-User Stories
+## Getting Started
+
+The application uses the REST Countries API. To use it, you need to:
+
+1. Get an API key from [REST Countries](https://restcountries.com/)
+2. Create a `.env` file in the project root
+3. Add your API key:
+   ```
+   RESTCOUNTRIES_BEARER=your_api_key_here
+   ```
+
+See `.env.example` for the required format.
+
+To start the application, run:
+```bash
+npm install
+npm run dev
+```
+
+
+## User Stories
+The application was developed with these userstories in mind:
 
 - As a traveler, I want to create a new trip with a destination and
   start date so that I can begin planning my journey.
